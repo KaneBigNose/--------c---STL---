@@ -2,52 +2,35 @@
 #include <cstring>
 using namespace std;
 
-class String
+class Equal
 {
-private:
-	char* temp;
 public:
-	explicit String(const char* trash)
+	explicit Equal() {}
+	bool operator()(int a, int b)
 	{
-		int len = strlen(trash) + 1;
-		temp = new char[len];
-		strcpy_s(temp, len, trash);
+		return a == b;
 	}
-	~String()
-	{
-		//delete[]temp;  4번 문제에 필요
-	}
-	operator const char* () const
-	{
-		cout << "const char* 형 operator호출!" << endl;
-		return temp;
-	}
-	String& operator=(const char* trash)
-	{
-		if (temp != NULL)
-			delete[]temp;
-		int len = strlen(trash) + 1;
-		temp = new char[len];
-		strcpy_s(temp, len, trash);
-		return *this;
-	}
-	friend ostream& operator<<(ostream& os, const String sr);
 };
 
-ostream& operator<<(ostream& os, String sr)
+class Adder
 {
-	cout << sr.temp << endl;
-	return os;
-}
+public:
+	explicit Adder() {}
+	int operator() (int a, int b)
+	{
+		return a + b;
+	}
+};
 
-int main()
+int main(void)
 {
-	/* String s("Hello!");
-	const char* sz = s;            4번문제
-	cout << sz << endl; */
+	Equal cmp;
+	if (cmp(10, 20))
+		cout << "같다!" << endl;
+	else
+		cout << "다르다!" << endl;
 
-	const char* sz = "Hello!";    //5번문제
-	String s("Hi~!");
-	s = sz;
-	cout << s << endl;
+	Adder add;
+	int sum = add(10, 20);
+	cout << "sum = " << sum << endl;
 }
