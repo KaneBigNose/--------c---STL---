@@ -1,36 +1,65 @@
 #include <iostream>
-#include <cstring>
 using namespace std;
 
-class Equal
+template <class T>
+class Stack
 {
+private:
+	T* temp;
+	int count;
 public:
-	explicit Equal() {}
-	bool operator()(int a, int b)
+	explicit Stack() : temp(NULL), count(0) {}
+	~Stack()
 	{
-		return a == b;
+		delete[]temp;
 	}
-};
-
-class Adder
-{
-public:
-	explicit Adder() {}
-	int operator() (int a, int b)
+	void Push(T num)
 	{
-		return a + b;
+		if (temp == NULL)
+		{
+			temp = new T[10];
+			temp[count++] = num;
+		}
+		else
+		{
+			temp[count++] = num;
+		}
+	}
+	bool Empty()
+	{
+		return temp == NULL;
+	}
+	T Pop()
+	{
+		T thisTemp = temp[--count];
+		temp[count] = NULL;
+		return thisTemp;
+	}
+	void CheckError1()
+	{
+		for (int i = 0; i < count; i++)
+		{
+			cout << temp[i] << endl;
+		}
 	}
 };
 
 int main(void)
 {
-	Equal cmp;
-	if (cmp(10, 20))
-		cout << "같다!" << endl;
-	else
-		cout << "다르다!" << endl;
+	Stack<int> st;
 
-	Adder add;
-	int sum = add(10, 20);
-	cout << "sum = " << sum << endl;
+	st.Push(10);
+	st.Push(20);
+	st.Push(30);
+
+	// st.CheckError1();
+
+	if (!st.Empty())
+		cout << st.Pop() << endl;
+	if (!st.Empty())
+		cout << st.Pop() << endl;
+	if (!st.Empty())
+		cout << st.Pop() << endl;
+
+	return 0;
 }
