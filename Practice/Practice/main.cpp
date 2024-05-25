@@ -2,14 +2,14 @@
 using namespace std;
 
 template <class T>
-class Stack
+class Queue
 {
 private:
 	T* temp;
 	int count;
 public:
-	explicit Stack() : temp(NULL), count(0) {}
-	~Stack()
+	explicit Queue() : temp(NULL), count(0) {}
+	~Queue()
 	{
 		delete[]temp;
 	}
@@ -31,35 +31,39 @@ public:
 	}
 	T Pop()
 	{
-		T thisTemp = temp[--count];
-		temp[count] = NULL;
-		return thisTemp;
+		T thistemp = temp[0];
+		for (int i = 0; i <= count; i++)
+		{
+			temp[i] = temp[i + 1];
+		}
+		temp[count--] = NULL;
+		return thistemp;
 	}
-	void CheckError1()
+	void Print()
 	{
 		for (int i = 0; i < count; i++)
 		{
-			cout << temp[i] << endl;
+			cout << temp[i];
 		}
 	}
 };
 
 int main(void)
 {
-	Stack<int> st;
+	Queue<int> q;
 
-	st.Push(10);
-	st.Push(20);
-	st.Push(30);
+	q.Push(10);
+	q.Push(20);
+	q.Push(30);
 
-	// st.CheckError1();
+	if (!q.Empty())
+		cout << q.Pop() << endl;
+	if (!q.Empty())
+		cout << q.Pop() << endl;
+	if (!q.Empty())
+		cout << q.Pop() << endl;
 
-	if (!st.Empty())
-		cout << st.Pop() << endl;
-	if (!st.Empty())
-		cout << st.Pop() << endl;
-	if (!st.Empty())
-		cout << st.Pop() << endl;
+	q.Print();
 
 	return 0;
 }
